@@ -1,5 +1,6 @@
 import { HeadContent, Outlet, Scripts, createRootRoute } from '@tanstack/react-router'
 import { Analytics } from '@vercel/analytics/react'
+import { SpeedInsights } from '@vercel/speed-insights/react'
 
 import '../styles.css'
 
@@ -23,6 +24,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <body style={{ background: '#080818', margin: 0 }}>
         {children}
         <Analytics />
+        <SpeedInsights />
         <Scripts />
       </body>
     </html>
