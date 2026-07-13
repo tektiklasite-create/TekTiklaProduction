@@ -1,0 +1,199 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #0a0a0b;
+  --color-surface: #101012;
+  --color-surface-2: #17171a;
+  --color-line: #242428;
+  --color-body: #8f8f98;
+  --color-bright: #ededf0;
+  --color-lime: #d9ff4b;
+  --color-brand-400: #8f75ff;
+  --color-brand-500: #7c5cff;
+  --color-brand-600: #6847ea;
+  --color-accent: #d9ff4b;
+  --font-sans: "Space Grotesk", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "Space Mono", "Cascadia Mono", monospace;
+  --font-serif: "Instrument Serif", Georgia, serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-ink);
+  color: var(--color-body);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* Grain dokusu — "dijital plastik" hissini kırar */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+::selection {
+  background: var(--color-lime);
+  color: #0a0a0b;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-ink);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-line);
+  border-radius: 0;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-lime);
+}
+
+/* Outline (kontur) başlık harfleri */
+.text-outline {
+  -webkit-text-stroke: 1.5px var(--color-bright);
+  color: transparent;
+}
+@media (min-width: 640px) {
+  .text-outline {
+    -webkit-text-stroke: 2px var(--color-bright);
+  }
+}
+.text-outline-lime {
+  -webkit-text-stroke: 1.5px var(--color-lime);
+  color: transparent;
+}
+@media (min-width: 640px) {
+  .text-outline-lime {
+    -webkit-text-stroke: 2px var(--color-lime);
+  }
+}
+
+/* ---- Giriş animasyonları (sadece transform + opacity) ---- */
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.anim-hero {
+  animation: fade-in-up 0.4s ease-out both;
+}
+
+/* Scroll reveal — IntersectionObserver .is-visible ekler */
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.4s ease-out,
+    transform 0.4s ease-out;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Hover lift — kartlar */
+.card-lift {
+  transition:
+    transform 0.2s ease-out,
+    box-shadow 0.2s ease-out,
+    border-color 0.2s ease-out;
+}
+
+.card-lift:hover {
+  transform: translateY(-4px);
+}
+
+/* ---- Marquee şerit ---- */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track {
+  animation: marquee 28s linear infinite;
+  will-change: transform;
+}
+
+/* ---- Dönen rozet (dairesel yazı) ---- */
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spin-slow {
+  animation: spin-slow 18s linear infinite;
+}
+
+/* ---- Scroll ilerleme çubuğu ---- */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 96;
+  height: 2px;
+  width: 100%;
+  background: var(--color-lime);
+  transform-origin: left;
+  will-change: transform;
+}
+
+/* ---- Tilt kartlar ---- */
+.tilt-card {
+  transition: transform 0.15s ease-out;
+  will-change: transform;
+}
+
+/* Erişilebilirlik: hareket azaltma tercihi her şeyi kapatır */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+  .marquee-track,
+  .spin-slow {
+    animation: none !important;
+  }
+  .tilt-card {
+    transform: none !important;
+  }
+}
+
+/* Odak görünürlüğü */
+:focus-visible {
+  outline: 2px solid var(--color-lime);
+  outline-offset: 2px;
+}
